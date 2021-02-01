@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="dptCode" />
+          </Key>
+          <Property Name="dptCode" Type="int" Nullable="false" />
+          <Property Name="dptName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="empNo" />
+          </Key>
+          <Property Name="empNo" Type="int" Nullable="false" />
+          <Property Name="empName" Type="varchar" MaxLength="60" />
+          <Property Name="dob" Type="date" />
+          <Property Name="doj" Type="date" />
+          <Property Name="dsgn" Type="varchar" MaxLength="10" />
+          <Property Name="salary" Type="float" />
+          <Property Name="mgrEmpNo" Type="int" />
+          <Property Name="dptCode" Type="int" />
+        </EntityType>
+        <Association Name="FK__Employee__dptCod__2D27B809">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dptCode" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="dptCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__mgrEmp__2C3393D0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="empNo" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="mgrEmpNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDataBaseModelStoreContainer">
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Employee__dptCod__2D27B809" Association="Self.FK__Employee__dptCod__2D27B809">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__mgrEmp__2C3393D0" Association="Self.FK__Employee__mgrEmp__2C3393D0">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="dptCode" />
+          </Key>
+          <Property Name="dptCode" Type="Int32" Nullable="false" />
+          <Property Name="dptName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__dptCod__2D27B809" FromRole="Department" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="empNo" />
+          </Key>
+          <Property Name="empNo" Type="Int32" Nullable="false" />
+          <Property Name="empName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dob" Type="DateTime" Precision="0" />
+          <Property Name="doj" Type="DateTime" Precision="0" />
+          <Property Name="dsgn" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="salary" Type="Double" />
+          <Property Name="mgrEmpNo" Type="Int32" />
+          <Property Name="dptCode" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Employee__dptCod__2D27B809" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Employee1" Relationship="Self.FK__Employee__mgrEmp__2C3393D0" FromRole="Employee" ToRole="Employee1" />
+          <NavigationProperty Name="Employee2" Relationship="Self.FK__Employee__mgrEmp__2C3393D0" FromRole="Employee1" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK__Employee__dptCod__2D27B809">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="dptCode" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="dptCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__mgrEmp__2C3393D0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="empNo" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="mgrEmpNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <AssociationSet Name="FK__Employee__dptCod__2D27B809" Association="Self.FK__Employee__dptCod__2D27B809">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__mgrEmp__2C3393D0" Association="Self.FK__Employee__mgrEmp__2C3393D0">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employee1" EntitySet="Employees" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDataBaseModelStoreContainer" CdmEntityContainer="TestDataBaseEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="TestDataBaseModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="dptCode" ColumnName="dptCode" />
+                <ScalarProperty Name="dptName" ColumnName="dptName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="TestDataBaseModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="empNo" ColumnName="empNo" />
+                <ScalarProperty Name="empName" ColumnName="empName" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="doj" ColumnName="doj" />
+                <ScalarProperty Name="dsgn" ColumnName="dsgn" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="mgrEmpNo" ColumnName="mgrEmpNo" />
+                <ScalarProperty Name="dptCode" ColumnName="dptCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
